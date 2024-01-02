@@ -1,5 +1,18 @@
 @extends('master')
 @section('content')
+
+<div class="breadcrumb-section breadcrumb-bg">
+  <div class="container">
+    <div class="row">
+    <div class="col-lg-8 offset-lg-2 text-center">
+      <div class="breadcrumb-text">
+      <h1>Product</h1>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+
 <!-- products -->
 <div class="product-section mt-150 mb-150">
 	<div class="container">
@@ -9,15 +22,17 @@
 			
 			
 		<div class="row product-lists">			
-			:@foreach ($products as $item)
+			@foreach ($products as $item)
 			<div class="col-lg-4 col-md-6 text-center strawberry">
 				<div class="single-product-item">
 					<div class="product-image">
-						<a href="{{$item -> category_id}}"><img src="{{asset($item -> photo)}}" alt="" style="max-height: 150px !important; min-height: 150px !important"></a>
+						<img src="{{asset($item -> photo)}}" alt="" style="max-height: 150px !important; min-height: 150px !important"></a>
 					</div>
-					<h3>{{$item -> name}} </h3>
-                    <h3>Quantity {{$item -> quantity}} </h3>
-                    <h3>Price {{$item -> price}}$</h3>
+					<h3>Name :{{$item -> name}} </h3>
+                    <h3>Price : {{$item -> price}}</h3>
+
+					<a href="/cart/{{$item -> category_id}}"class="cart-btn">Add To Cart</a>
+
 				</div>
 			</div>
 			@endforeach

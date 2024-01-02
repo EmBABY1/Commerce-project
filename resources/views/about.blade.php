@@ -5,10 +5,23 @@
     <div class="row">
     <div class="col-lg-8 offset-lg-2 text-center">
       <div class="breadcrumb-text">
-      <h1>category</h1>
+      <h1>About us</h1>
       </div>
     </div>
     </div>
   </div>
   </div>
 @endsection
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+      
+
+
+  </body>
+</html>

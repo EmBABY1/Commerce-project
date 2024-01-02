@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\DB;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// for all users
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('welcome');
@@ -22,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
         $result= DB::table('product')->get();
         return view('product',['products'=>$result]);
     });
+       
     Route::get('/category', function () {
         return view('category',['name'=>'fruits']);
     });
@@ -40,18 +44,45 @@ Route::middleware(['auth'])->group(function () {
     
         return view('product',['products'=>$result]);
     });
-    Route::get('/login', function () {
-        return view('login');
-    });
-    Route::get('API', function () {
-        return view('API');
-    });
     Route::get('/welcome', function () {
         return view('welcome');
+    });
+    Route::get('/about', function () {
+        return view('about');
+    });
+    Route::get('/contact', function () {
+        return view('contact');
+    });
+    Route::get('/news', function () {
+        return view('news');
+    });
+    Route::get('/cart/{cat_id}', function ($cat_id) {
+        $result= DB::table('product')->where('category_id',$cat_id)->get();
+      // dd($result);
+    
+        return view('cart',['products'=>$result]);
+    });
+    Route::get('/checkout', function ($cat_id) {
+        $result= DB::table('product')->where('category_id',$cat_id)->get();
+      // dd($result);
+    
+        return view('cart',['products'=>$result]);
     });
 });
 
 
+
+
+    // for admin
+
+    Route::middleware(['auth','isAdmin'])->group(function () {
+    Route::get('insert',[App\Http\Controllers\ProductInsertController::class,'insertform']);
+    Route::post('create',[App\Http\Controllers\ProductInsertController::class,'insert']);
+    Route::get('view-records',[App\Http\Controllers\StudViewController::class,'index']);
+
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

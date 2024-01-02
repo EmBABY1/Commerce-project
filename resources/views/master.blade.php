@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +33,9 @@
 	<!-- responsive -->
 	<link rel="stylesheet" href="{{asset('assets/css/responsive.css')}}">
 
+
+
+
 </head>
 <body>
 
@@ -50,7 +55,7 @@
 					<div class="main-menu-wrap">
 						<!-- logo -->
 						<div class="site-logo">
-							<a href="index.html">
+							<a href="/">
 								<img src="assets/img/logo.png" alt="">
 							</a>
 						</div>
@@ -60,19 +65,35 @@
 						<nav class="main-menu">
 							<ul>
 								<li class="current-list-item"><a href="/">Home</a>
-						
+									<li><a href="#">Pages</a>
+										<ul class="sub-menu">
+											<li><a href="/about">About</a></li>
+											<li><a href="/product">Product</a></li>
+											<li><a href="/category">category</a></li>
+											<li><a href="/contact">Contact</a></li>
+											<li><a href="/shop">Shop</a>
+											<li><a href="/login">login</a>
+											<li><a href="/register">register</a></li>
+											<li><a href="/news">News</a></li>
+										</ul>
+									</li>
 								</li>
-								<li><a href="/about">About</a></li>
-								<li><a href="/product">Product</a></li>
-								<li><a href="/category">category</a></li>
-								<li><a href="/contact">Contact</a></li>
-								<li><a href="/shop">Shop</a>
-								<li><a href="/login">login</a>
-								<li><a href="/register">register</a></li>
-								<li><a href="/news">News</a></li>
-
+								{{-- this pages for admin only --}}
+								<li><a href="/news">News</a>
+								@if (Auth::user()->role_as=='admin')	
+									<li><a href="/insert">insert product</a></li>	
+								@endif
+								{{-- this pages for logout --}}
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+									@csrf
+								</form>
+								<li>
+									<a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
 								</li>
-							
 							</ul>
 						</nav>
 						<a class="mobile-show search-bar-icon" href="#"><i class="fas fa-search"></i></a>
@@ -104,71 +125,11 @@
 	</div>
 	<!-- end search area -->
 
-	<!-- home page slider -->
-	<div class="homepage-slider">
-		<!-- single home slider -->
-		<div class="single-homepage-slider homepage-bg-1">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 col-lg-7 offset-lg-1 offset-xl-0">
-						<div class="hero-text">
-							<div class="hero-text-tablecell">
-								<p class="subtitle">Electronics & Products</p>
-								<h1>Electronics & Products</h1>
-								<div class="hero-btns">
-									<a href="/shop" class="boxed-btn">Electronics Collection</a>
-									<a href="/contact" class="bordered-btn">Contact Us</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- single home slider -->
-		<div class="single-homepage-slider homepage-bg-2">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-10 offset-lg-1 text-center">
-						<div class="hero-text">
-							<div class="hero-text-tablecell">
-								<p class="subtitle">Products Everyday</p>
-								<h1>100% organized Collection</h1>
-								<div class="hero-btns">
-									<a href="/shop" class="boxed-btn">Visit Shop</a>
-									<a href="/contact" class="bordered-btn">Contact Us</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- single home slider -->
-		<div class="single-homepage-slider homepage-bg-3">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-10 offset-lg-1 text-right">
-						<div class="hero-text">
-							<div class="hero-text-tablecell">
-								<p class="subtitle">Mega Sale Going On!</p>
-								<h1>Get December Discount</h1>
-								<div class="hero-btns">
-									<a href="/shop" class="boxed-btn">Visit Shop</a>
-									<a href="/contact" class="bordered-btn">Contact Us</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 
 
 
 
-@yield('content');
+@yield('content')
 
 
 
