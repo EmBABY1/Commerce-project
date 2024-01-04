@@ -63,6 +63,10 @@
 		</div>
 	</div>
 @endsection
+{{-- @php
+	echo auth()->user()->email ; 
+	@endphp
+ --}}
 
 
 <!DOCTYPE html>

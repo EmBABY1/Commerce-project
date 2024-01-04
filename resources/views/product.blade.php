@@ -29,9 +29,10 @@
 						<img src="{{asset($item -> photo)}}" alt="" style="max-height: 150px !important; min-height: 150px !important"></a>
 					</div>
 					<h3>Name :{{$item -> name}} </h3>
-                    <h3>Price : {{$item -> price}}</h3>
+                    <h3>Price : {{$item -> price}}$</h3>
+					<h3>quantity : {{$item -> quantity}}</h3>
 
-					<a href="/cart/{{$item -> category_id}}"class="cart-btn">Add To Cart</a>
+					<a href="/cart/{{$item -> id }}"class="cart-btn">Add To Cart</a>
 
 				</div>
 			</div>

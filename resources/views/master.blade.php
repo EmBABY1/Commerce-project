@@ -79,7 +79,8 @@
 									</li>
 								</li>
 								{{-- this pages for admin only --}}
-								<li><a href="/news">News</a>
+								<li><a href="/MyCart">MyCart</a></li>
+								<li><a href="/news">News</a></li>
 								@if (Auth::user()->role_as=='admin')	
 									<li><a href="/insert">insert product</a></li>	
 								@endif

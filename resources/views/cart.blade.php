@@ -32,13 +32,22 @@
                   
                 @foreach ($products as $item)
                 <tr class="table-body-row">
-                  <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+                  <td class="product-remove"><i class=""></i></td>
                   <td class="product-image"><img src="{{asset($item -> photo)}}" alt=""style="max-height: 60px !important; min-height: 60px !important"></td>
                   <td class="product-name">{{$item -> name}}</td>
                   <td class="product-price">{{$item -> price}}$</td>
-                  <td class="product-quantity"><input type="number" placeholder="0"></td>
+                  <td class="product-quantity">
+                    <select name="" id="">
+                      @for ($i=1;$i<=($item -> quantity);$i++)
+                      <option value="1">{{$i}}</option>
+                      @endfor
+                    </select>​  
+                  </td>
+
                   <td class="product-total"></td>
+                 
                 </tr>
+                
                 @endforeach
 
               </tbody>

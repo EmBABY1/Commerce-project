@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\DB;
 // for all users
 
 Route::middleware(['auth'])->group(function () {
+
     Route::get('/', function () {
+        $id = Auth::id();
         return view('welcome');
     });
     Route::get('/product', function () {
@@ -56,18 +58,19 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/news', function () {
         return view('news');
     });
-    Route::get('/cart/{cat_id}', function ($cat_id) {
-        $result= DB::table('product')->where('category_id',$cat_id)->get();
+    Route::get('/cart/{id}', function ($id) {
+        $result= DB::table('product')->where('id',$id)->get();
       // dd($result);
     
         return view('cart',['products'=>$result]);
     });
-    Route::get('/checkout', function ($cat_id) {
-        $result= DB::table('product')->where('category_id',$cat_id)->get();
+    Route::get('/checkout', function () {
+       // $result= DB::table('product')->where('category_id',$cat_id)->get();
       // dd($result);
     
-        return view('cart',['products'=>$result]);
+        return view('checkout');
     });
+    
 });
 
 
