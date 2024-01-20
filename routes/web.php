@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Models\mycart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,9 +47,6 @@ Route::middleware(['auth'])->group(function () {
     
         return view('product',['products'=>$result]);
     });
-    Route::get('/welcome', function () {
-        return view('welcome');
-    });
     Route::get('/about', function () {
         return view('about');
     });
@@ -61,16 +59,30 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart/{id}', function ($id) {
         $result= DB::table('product')->where('id',$id)->get();
       // dd($result);
-    
         return view('cart',['products'=>$result]);
     });
-    Route::get('/checkout', function () {
-       // $result= DB::table('product')->where('category_id',$cat_id)->get();
-      // dd($result);
-    
-        return view('checkout');
+    Route::get('/mycart/{id}', function ($id) {
+        $result  = DB::table('mycart as my')
+            ->select('p.*','my.cart_quantity','my.product_id') // here you can add column names which you need in output
+            ->leftJoin('product as p', 'p.id', '=', 'my.product_id')
+            ->where('my.user_id',$id) // here if you need data by id of user then use u.id in where insead of or.id
+            ->get();
+        //dd($result);
+        return view('mycart',['mycart'=>$result]);
     });
-    
+
+    Route::get('/checkout/{id}', function ($id) {
+        $result= DB::table('product')->where('id',$id)->get();
+     //  dd($result);
+        // Route::post('create',[App\Http\Controllers\MycartInsertController::class,'insertcart']);
+      return view('checkout',['products'=>$result]);
+     
+    });
+  
+    Route::post('/insertData', [App\Http\Controllers\MycartInsertController::class, 'insertData']);
+    Route::post('/updateData', [App\Http\Controllers\MycartInsertController::class, 'updateData']);
+
+ 
 });
 
 
@@ -79,8 +91,10 @@ Route::middleware(['auth'])->group(function () {
     // for admin
 
     Route::middleware(['auth','isAdmin'])->group(function () {
-    Route::get('insert',[App\Http\Controllers\ProductInsertController::class,'insertform']);
-    Route::post('create',[App\Http\Controllers\ProductInsertController::class,'insert']);
+        Route::get('/insert', function () {
+            return view('/prod_create');
+        });
+   Route::post('create',[App\Http\Controllers\ProductInsertController::class,'insert']);
     Route::get('view-records',[App\Http\Controllers\StudViewController::class,'index']);
 
 });

@@ -5,13 +5,13 @@
             <div class="row">
                 <div class="col-lg-8 offset-lg-2 text-center">
                     <div class="breadcrumb-text">
-                        <h1>Cart</h1>
+                        <h1>MyCart</h1>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <form action = "/insertData" method = "post" class="form-group" style="width:70%; margin-left:15%;" action="/action_page.php"
+    <form action = "/updateData" method = "post" class="form-group" style="width:70%; margin-left:15%;" action="/action_page.php"
         enctype="multipart/form-data">
 
         <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>"><input type = "hidden" name = "_token"
@@ -29,41 +29,37 @@
                                         <th class="product-name">Name</th>
                                         <th class="product-price">Price</th>
                                         <th class="product-quantity">Quantity</th>
+                                        <th class="product-quantity"></th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
 
 
-                                    @foreach ($products as $item)
+                                    @foreach ($mycart as $item)
+                                        <input name="product_id" value="{{ $item->product_id }}" hidden>
                                         <tr class="table-body-row">
                                             <td class="product-remove"><i class=""></i></td>
                                             <td class="product-image"><img src="{{ asset($item->photo) }}"
-                                                    alt=""style="max-height: 60px !important; min-height: 60px !important">
+                                                    alt=""style="max-height: 80px !important; min-height: 80px !important">
                                             </td>
-                                            <input name="product_id" value="{{ $item->id }}" hidden>
-                                            <input name="price" value="{{ $item->price * $item->quantity }}" hidden>
                                             <td class="product-name">{{ $item->name }}</td>
-                                            <td class="product-price">{{ $item->price }}$</td>
+                                            <td class="product-price">{{ $item->price * $item->cart_quantity }}$</td>
                                             <td class="product-quantity">
-                                                <select name="cart_quantity" id="">
-                                                    @for ($i = 1; $i <= $item->quantity; $i++)
-                                                        <option value={{ $i }}>{{ $i }}
-                                                        </option>
-                                                    @endfor
-                                                </select>​
+                                                ​{{ $item->cart_quantity }}
                                             </td>
 
-                                            <td class="product-total"></td>
+                                            <td class="product-total">
+                                                <button type="submit">
+                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Red_x.svg/1200px-Red_x.svg.png"
+                                                        height="20px" width="20px">
+                                                </button>
+                                            </td>
 
                                         </tr>
 
 
                                 </tbody>
-                                <td></td>
-                                <td></td>
-                                <td> <button type="submit" value = "Add to cart" class="btn btn-primary">Submit</button>
-                                </td>
                                 @endforeach
                             </table>
                         </div>
