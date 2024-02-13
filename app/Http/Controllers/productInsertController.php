@@ -49,9 +49,18 @@ class ProductInsertController extends Controller
         $photo = $path.$filename;
         $data=array('name'=>$name,"description"=>$description,"photo"=>$photo,"quantity"=>$quantity,"price"=>$price,"category_id"=>$category_id);
         DB::table('product')->insert($data);
-        echo "Record inserted successfully.<br/>";
-        echo '<a href = "/insert">Click Here</a> to go back.';
+       
+        echo "<script type='text/javascript'>alert('Record inserted successfully');</script>";    
+        return view('welcome');
+      
         }
-  
-  
+        public function search(Request $request){
+            $search = $request->input('search');
+         
+            $result = DB::select("select * FROM product 
+            where name like '%$search%' or category_id in (SELECT id FROM category WHERE name LIKE '%$search%' );
+            ");
+            return view('product',['products'=>$result]);
+        }
+       
 }

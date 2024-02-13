@@ -13,8 +13,13 @@
     </div>
 
     <!-- products -->
-    <form action="/cart" method="post">
+    <form action="/search" method="post">
         @csrf
+        <br>
+        <div style="margin-left: 40%">
+            <input type="text" placeholder="product search" name = "search">
+            <button type="submit">Search <i class="fas fa-search"></i></button>
+        </div>
         <div class="product-section mt-150 mb-150">
             <div class="container">
                 <div class="row product-lists">

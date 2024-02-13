@@ -32,14 +32,30 @@
                                     data-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="billing-address-form">
-                                            <form action="index.html">
-                                                <p><input type="text" placeholder="Name"></p>
-                                                <p><input type="email" placeholder="Email"></p>
-                                                <p><input type="text" placeholder="Address"></p>
-                                                <p><input type="tel" placeholder="Phone"></p>
+                                            <form action = "/insert_order_details" method = "post" class="form-group"
+                                                style="width:70%; margin-left:15%;" action="/action_page.php"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @foreach ($mycart as $item)
+                                                    <input value="{{ $item->product_id }}" hidden name="product_id[]">
+                                                    <input value="{{ $item->name }}" hidden name="product_name[]">
+                                                    <input value="{{ $item->price }}" hidden name="price[]">
+                                                @endforeach
+                                                <p><input type="text" placeholder="Name" name="name"></p>
+                                                <p><input type="email" placeholder="Email" name="email"></p>
+                                                <p><input type="text" placeholder="Address" name="address"></p>
+                                                <p><input type="tel" placeholder="Phone" name="phone"></p>
                                                 <p>
-                                                    <textarea name="bill" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea>
+                                                    <textarea name="comment" id="bill" cols="30" rows="10" placeholder="Say Something"></textarea>
                                                 </p>
+
+                                                Payment Method <br>
+                                                <input type="radio" value="visa" name="payment_method"> Visa
+                                                <br> <input name="payment_method" type="radio" value="cash"> Cash
+                                                <br>
+
+                                                <button type="submit"class="button">Place Order</button>
+
                                             </form>
                                         </div>
                                     </div>
@@ -96,42 +112,42 @@
                                     <th>Price</th>
                                 </tr>
                             </thead>
-                            @foreach ($products as $item)
-                                <tbody class="order-details-body">
+
+                            <tbody class="order-details-body">
+                                <tr>
+                                    <td>Product</td>
+                                    <td>Total</td>
+                                </tr>
+
+
+                                @foreach ($mycart as $item)
+                                    @php
+                                        global $globalVar;
+                                        $globalVar += $item->price;
+                                    @endphp
                                     <tr>
-                                        <td>Product</td>
-                                        <td>Total</td>
+
+                                        <td> {{ $item->name }} </td>
+                                        <td>${{ $item->price }}</td>
                                     </tr>
-                                    <tr>
-                                        <td> Strawberry </td>
-                                        <td>$85.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Berry</td>
-                                        <td>$70.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lemon</td>
-                                        <td>$35.00</td>
-                                    </tr>
-                                </tbody>
-                                <tbody class="checkout-details">
-                                    <tr>
-                                        <td>Subtotal</td>
-                                        <td>$190</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipping</td>
-                                        <td>$50</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Total</td>
-                                        <td>$240</td>
-                                    </tr>
-                            @endforeach
+                                @endforeach
+                            </tbody>
+                            <tbody class="checkout-details">
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td>$@php echo $globalVar; @endphp</td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping</td>
+                                    <td>$50</td>
+                                </tr>
+                                <tr>
+                                    <td>Total</td>
+                                    <td>$@php echo 50+$globalVar; @endphp </td>
+                                </tr>
+
                             </tbody>
                         </table>
-                        <a href="#" class="boxed-btn">Place Order</a>
                     </div>
                 </div>
             </div>

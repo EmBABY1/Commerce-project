@@ -12,7 +12,6 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
@@ -35,13 +34,22 @@ return [
     |
     */
 
+  
     'guards' => [
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
-    ],
 
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+    ],
+    
+  
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -111,5 +119,12 @@ return [
     */
 
     'password_timeout' => 10800,
+   
 
 ];
+
+
+ 
+
+   
+       

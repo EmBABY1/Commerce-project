@@ -42,7 +42,8 @@
                                                     alt=""style="max-height: 60px !important; min-height: 60px !important">
                                             </td>
                                             <input name="product_id" value="{{ $item->id }}" hidden>
-                                            <input name="price" value="{{ $item->price * $item->quantity }}" hidden>
+                                            <input name="price" value="{{ $item->price }}" hidden>
+                                            <input name="cartq" value="{{ $item->quantity }}" hidden>
                                             <td class="product-name">{{ $item->name }}</td>
                                             <td class="product-price">{{ $item->price }}$</td>
                                             <td class="product-quantity">
@@ -62,7 +63,8 @@
                                 </tbody>
                                 <td></td>
                                 <td></td>
-                                <td> <button type="submit" value = "Add to cart" class="btn btn-primary">Submit</button>
+                                <td> <button type="submit" value = "Add to cart" class="btn btn-primary">Add to
+                                        cart</button>
                                 </td>
                                 @endforeach
                             </table>

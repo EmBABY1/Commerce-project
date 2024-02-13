@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <form action = "/updateData" method = "post" class="form-group" style="width:70%; margin-left:15%;" action="/action_page.php"
+    <form action="/checkoutfun" method = "post" class="form-group" style="width:70%; margin-left:15%;"
         enctype="multipart/form-data">
 
         <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>"><input type = "hidden" name = "_token"
@@ -29,7 +29,7 @@
                                         <th class="product-name">Name</th>
                                         <th class="product-price">Price</th>
                                         <th class="product-quantity">Quantity</th>
-                                        <th class="product-quantity"></th>
+                                        <th class="product-total">Total</th>
                                     </tr>
                                 </thead>
 
@@ -38,22 +38,31 @@
 
                                     @foreach ($mycart as $item)
                                         <input name="product_id" value="{{ $item->product_id }}" hidden>
+                                        <input name="cart_quantity" value="{{ $item->cart_quantity }}" hidden>
+
                                         <tr class="table-body-row">
-                                            <td class="product-remove"><i class=""></i></td>
+
+                                            <td class=""><input type="checkbox" value={{ $item->product_id }}
+                                                    name="items[]"> </td>
                                             <td class="product-image"><img src="{{ asset($item->photo) }}"
-                                                    alt=""style="max-height: 80px !important; min-height: 80px !important">
+                                                    alt=""style="max-height: 80px !important; min-height: 80px !important"
+                                                    href="/welcome">
                                             </td>
                                             <td class="product-name">{{ $item->name }}</td>
-                                            <td class="product-price">{{ $item->price * $item->cart_quantity }}$</td>
+                                            <td class="product-price">{{ $item->price / $item->cart_quantity }}$</td>
                                             <td class="product-quantity">
                                                 ​{{ $item->cart_quantity }}
                                             </td>
 
                                             <td class="product-total">
-                                                <button type="submit">
+                                                {{ $item->price }}$</td>
+                                            <td>
+
+                                                <button type="submit" formaction="/updateData">
                                                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Red_x.svg/1200px-Red_x.svg.png"
                                                         height="20px" width="20px">
                                                 </button>
+
                                             </td>
 
                                         </tr>
@@ -63,7 +72,11 @@
                                 @endforeach
                             </table>
                         </div>
-
+                        <a href="/checkout">
+                            <button style="margin-left: 50%" class="button">
+                                Checkout
+                            </button>
+                        </a>
                     </div>
 
                 </div>
