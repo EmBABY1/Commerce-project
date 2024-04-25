@@ -59,9 +59,6 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422); // Return validation errors with status code 422
         }
-        
-        
-        
         $result= posts::create($request->all());
         if($result)
             return response()->json("done", 200, ["hello"]);

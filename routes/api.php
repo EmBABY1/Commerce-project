@@ -36,13 +36,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware(['jwt_verify'])->group(function () {
     Route::get('/posts', [PostController::class, 'index']);
     Route::get('/posts/{id?}', [PostController::class, 'show']);
-    Route::post('posts/store', [PostController::class, 'store']);
+    Route::post('posts/store/', [PostController::class, 'store']);
     Route::post('posts/update/{id?}', [PostController::class, 'update']);
     Route::delete('posts/delete/{id?}', [PostController::class, 'delete']);
     
 });
-
-
-
-
-

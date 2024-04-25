@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Models\mycart;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TwofactorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,42 +16,14 @@ use Illuminate\Support\Facades\Auth;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//verifycode
+Route::resource('verify', TwofactorController::class);
+//checkcode
+Route::post('/checkcode', [TwofactorController::class, 'checkcode']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-/*Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
-
-*/
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// for all users
-
-Route::middleware(['auth'])->group(function () {
-
+Route::middleware(['auth', 'verified','Twofactor'])->group(function () {
     Route::get('/', function () {
-        $id = Auth::id();
         return view('welcome');
     });
     Route::get('/product', function () {
@@ -112,24 +85,27 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/updateData', [App\Http\Controllers\MycartInsertController::class, 'updateData']);
     Route::post('/checkoutfun', [App\Http\Controllers\MycartInsertController::class, 'checkoutfun']);
     Route::post('/insert_order_details', [App\Http\Controllers\OrderController::class, 'insert_order_details']);
-
- 
-});
-
-
-
-
     // for admin
 
     Route::middleware(['auth','isAdmin'])->group(function () {
         Route::get('/insert', function () {
             return view('/prod_create');
         });
-   Route::post('create',[App\Http\Controllers\ProductInsertController::class,'insert']);
+    Route::post('create',[App\Http\Controllers\ProductInsertController::class,'insert']);
     Route::get('view-records',[App\Http\Controllers\StudViewController::class,'index']);
 
 });
-
-Auth::routes();
+ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';

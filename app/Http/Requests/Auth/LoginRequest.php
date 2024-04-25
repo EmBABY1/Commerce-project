@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
+use App\Models\User;
+use Twilio\Rest\Client;
 use Illuminate\Support\Str;
+use Illuminate\Auth\Events\Lockout;
+use App\Notifications\Twofactorcode;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -48,6 +51,24 @@ class LoginRequest extends FormRequest
                 'email' => trans('auth.failed'),
             ]);
         }
+        // insert code in database
+        $user=User::where('email',$this->input('email'))->first();
+        $user->generate_code();
+
+        // send code to mailtrap
+        $user->notify(new Twofactorcode());
+
+
+        // send code via phone number
+        
+      /*  $message="login OTP is " .$user->verification_code;
+        $account_SID=getenv("TWILIO_SID");
+        $auth_token=getenv("TWILIO_TOKEN");
+        $from=getenv("TWILIO_FROM");
+        $client=new Client($account_SID,$auth_token);
+        $client->messages->create('+201225749792',['from' => $from,
+        'body'=>$message]);
+        */
 
         RateLimiter::clear($this->throttleKey());
     }
